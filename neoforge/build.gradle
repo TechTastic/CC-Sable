@@ -71,7 +71,7 @@ curseforge {
             changelogType = 'markdown'
             changelog = rootProject.file("changelog.md").text
             addGameVersion minecraft_version
-            addGameVersion "NeoForge"
+            addGameVersion "neoforge"
 
             mainArtifact(remapJar.archiveFile.get().asFile) {
                 relations {
@@ -95,7 +95,7 @@ modrinth {
     versionNumber = project.mod_version
     uploadFile = remapJar.archiveFile.get().asFile
     gameVersions = [project.minecraft_version]
-    loaders = ["NeoForge"]
+    loaders = ["neoforge"]
     changelog = rootProject.file("changelog.md").text
 
     dependencies {

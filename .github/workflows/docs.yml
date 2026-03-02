@@ -1,9 +1,8 @@
 name: Build & Publish Docs
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 jobs:
   docs:
@@ -13,62 +12,40 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
 
       - name: Install LDoc
         run: |
           sudo apt-get install -y lua5.4 luarocks
           sudo luarocks install ldoc
 
-      - name: Generate docs
-        run: ldoc .
-
-      - name: Get version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
-
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
           ref: gh-pages
-          path: gh-pages-site
+          path: gh-pages
 
-      - name: Add versioned docs
+      - name: Generate docs
         run: |
-          mkdir -p gh-pages-site/${{ steps.version.outputs.VERSION }}
-          cp -r doc/. gh-pages-site/${{ steps.version.outputs.VERSION }}/
+          VERSION=${{ github.event.release.tag_name }}
+          mkdir gh-pages/$VERSION
+          ldoc -c docs/config.ld -d gh-pages/$VERSION .
 
-      - name: Update latest
-        run: |
-          rm -rf gh-pages-site/latest
-          cp -r doc/. gh-pages-site/latest/
+      - name: Generate versions.json
+        run: ls -d gh-pages/v* | jq -R gh-pages/. | jq -s gh-pages/. > gh-pages/versions.json
 
-      - name: Update root index
-        run: |
-          cd gh-pages-site
-          VERSIONS=$(ls -d v*/ 2>/dev/null | sort -V | sed 's|/||g')
-          LATEST=${{ steps.version.outputs.VERSION }}
-          cat > index.html << EOF
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta http-equiv="refresh" content="0; url=latest/" />
-            <title>Docs</title>
-          </head>
-          <body>
-            <p>Redirecting to <a href="latest/">latest docs</a>...</p>
-            <h2>All Versions</h2>
-            <ul>
-          $(for v in $VERSIONS; do echo "    <li><a href=\"$v/\">$v</a></li>"; done)
-            </ul>
-          </body>
-          </html>
-          EOF
+      - name: Copy over version.js
+        run: cp docs/version.js gh-pages/version.js
+
+      - name: Script Injection for Dropdown
+        run: find gh-pages/ -name "*.html" -exec \ sed -i '/<\/body>/i <script src="\/version.js"><\/script>' {} \;
 
       - name: Commit and push to gh-pages
         run: |
-          cd gh-pages-site
+          cd gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "docs: add ${{ steps.version.outputs.VERSION }}"
+          git commit -m "docs: add ${{ steps.version.release.tag_name }}"
           git push

@@ -43,6 +43,14 @@ jobs:
           chmod +x gradlew
           ./gradlew build
 
+      - name: Create and Push Tag Explicitly
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag ${{ steps.version.outputs.TAG }}
+          git remote set-url origin https://x-access-token:${PAT_TOKEN}@github.com/${{ github.repository }}
+          git push origin ${{ steps.version.outputs.TAG }}
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -52,14 +60,6 @@ jobs:
           files: |
             fabric/build/libs/*.jar
             neoforge/build/libs/*.jar
-
-      - name: Create and Push Tag Explicitly
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git tag ${{ steps.version.outputs.TAG }}
-          git remote set-url origin https://x-access-token:${PAT_TOKEN}@github.com/${{ github.repository }}
-          git push origin ${{ steps.version.outputs.TAG }}
 
       - name: Publish Mod
         if: inputs.publish-mod

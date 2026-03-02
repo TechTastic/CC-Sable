@@ -72,9 +72,6 @@ jobs:
           sudo apt-get install -y lua5.4 luarocks
           sudo luarocks install ldoc
 
-      - name: Generate docs
-        run: ldoc .
-
       - name: Get version from tag
         id: version
         run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
@@ -83,45 +80,51 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: gh-pages
-          path: gh-pages-site
+          path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Add versioned docs
+      - name: Generate docs for this version
         run: |
-          mkdir -p gh-pages-site/${{ steps.version.outputs.VERSION }}
-          cp -r doc/. gh-pages-site/${{ steps.version.outputs.VERSION }}/
+          mkdir -p gh-pages/${{ steps.version.outputs.VERSION }}
+          ldoc -c config.ld -d gh-pages/${{ steps.version.outputs.VERSION }} .
 
-      - name: Update latest
+      - name: Update versions index
         run: |
-          rm -rf gh-pages-site/latest
-          cp -r doc/. gh-pages-site/latest/
-
-      - name: Update root index
-        run: |
-          cd gh-pages-site
-          VERSIONS=$(ls -d v*/ 2>/dev/null | sort -V | sed 's|/||g')
-          LATEST=${{ steps.version.outputs.VERSION }}
-          cat > index.html << EOF
+          cd gh-pages
+          VERSIONS=$(ls -d v*/ 2>/dev/null | sort -rV | sed 's|/||')
+          
+          cat > index.html << 'EOF'
           <!DOCTYPE html>
           <html>
           <head>
-            <meta http-equiv="refresh" content="0; url=latest/" />
-            <title>Docs</title>
+            <meta charset="utf-8">
+            <title>YourMod Docs</title>
+            <style>
+              body { font-family: sans-serif; max-width: 600px; margin: 4rem auto; }
+              ul { line-height: 2; }
+            </style>
           </head>
           <body>
-            <p>Redirecting to <a href="latest/">latest docs</a>...</p>
-            <h2>All Versions</h2>
-            <ul>
-          $(for v in $VERSIONS; do echo "    <li><a href=\"$v/\">$v</a></li>"; done)
-            </ul>
+            <h1>YourMod Documentation</h1>
+            <ul id="versions"></ul>
+            <script>
+              const versions = `${VERSIONS}`.trim().split('\n').filter(Boolean);
+              const ul = document.getElementById('versions');
+              versions.forEach((v, i) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="${v}/">${v}</a>${i === 0 ? ' <strong>(latest)</strong>' : ''}`;
+                ul.appendChild(li);
+              });
+            </script>
           </body>
           </html>
           EOF
 
       - name: Commit and push to gh-pages
         run: |
-          cd gh-pages-site
+          cd gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "docs: add ${{ steps.version.outputs.VERSION }}"
+          git add -A
+          git commit -m "docs: add ${{ steps.version.outputs.VERSION }}" || echo "Nothing to commit"
           git push

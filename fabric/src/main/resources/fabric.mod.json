@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "cc_sable",
+  "version": "${version}",
+  "name": "CC: Sable",
+  "description": "CC: Tweaked addon for Sable!",
+  "authors": [
+    "TechTastic"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/cc_sable/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.techtastic.cc_sable.fabric.CCSableFabric"
+    ]
+  },
+  "mixins": [
+    "cc_sable.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "architectury": ">=13.0.8",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

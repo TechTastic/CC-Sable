@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>YourMod Docs</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 4rem auto; }
+    ul { line-height: 2; }
+  </style>
+</head>
+<body>
+  <h1>YourMod Documentation</h1>
+  <ul id="versions"></ul>
+  <script>
+    const versions = `${VERSIONS}`.trim().split('\n').filter(Boolean);
+    const ul = document.getElementById('versions');
+    versions.forEach((v, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${v}/">${v}</a>${i === 0 ? ' <strong>(latest)</strong>' : ''}`;
+      ul.appendChild(li);
+    });
+  </script>
+</body>
+</html>

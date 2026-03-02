@@ -1,9 +1,19 @@
-name: Build & Publish Docs
+name: Release
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      publish-mod:
+        description: 'Publish the mod to Modrinth and CurseForge'
+        default: false
+        type: boolean
+
+env:
+  MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+  CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+
+permissions:
+  contents: read
 
 jobs:
   build-and-release:
@@ -20,6 +30,13 @@ jobs:
           java-version: '21'
           distribution: 'microsoft'
 
+      - name: Get version from gradle.properties
+        id: version
+        run: |
+          VERSION=$(grep '^mod_version' gradle.properties | cut -d'=' -f2 | tr -d ' ')
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "TAG=v$VERSION" >> $GITHUB_OUTPUT
+
       - name: Build Mod
         run: |
           chmod +x gradlew
@@ -28,12 +45,15 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.version.outputs.TAG }}
+          name: ${{ steps.version.outputs.TAG }}
           body_path: changelog.md
           files: |
             fabric/build/libs/*.jar
             neoforge/build/libs/*.jar
 
       - name: Publish Mod
+        if: inputs.publish-mod
         run: |
           ./gradlew :fabric:modrinth
           ./gradlew :neoforge:modrinth

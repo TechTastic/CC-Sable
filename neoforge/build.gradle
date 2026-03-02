@@ -71,7 +71,7 @@ curseforge {
             changelogType = 'markdown'
             changelog = rootProject.file("changelog.md").text
             addGameVersion minecraft_version
-            addGameVersion "neoforge"
+            addGameVersion "NeoForge"
 
             mainArtifact(remapJar.archiveFile.get().asFile) {
                 relations {

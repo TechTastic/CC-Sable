@@ -67,7 +67,7 @@ curseforge {
             changelogType = 'markdown'
             changelog = rootProject.file("changelog.md").text
             addGameVersion minecraft_version
-            addGameVersion "fabric"
+            addGameVersion "Fabric"
 
             mainArtifact(remapJar.archiveFile.get().asFile) {
                 relations {

@@ -1,8 +1,9 @@
 name: Build & Publish Docs
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   docs:
@@ -13,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.ref_name }}
 
       - name: Install LDoc
         run: |
@@ -28,7 +29,7 @@ jobs:
 
       - name: Generate docs
         run: |
-          VERSION=${{ github.event.release.tag_name }}
+          VERSION=${{ github.ref_name }}
           mkdir gh-pages/$VERSION
           ldoc -c docs/config.ld -d gh-pages/$VERSION .
 
@@ -47,5 +48,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "docs: add ${{ steps.version.release.tag_name }}"
+          git commit -m "docs: add ${{ github.ref_name }}"
           git push

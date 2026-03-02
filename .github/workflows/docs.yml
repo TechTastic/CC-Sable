@@ -8,6 +8,7 @@ on:
 
 jobs:
   docs:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -15,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Install LDoc
         run: |
@@ -30,7 +31,7 @@ jobs:
 
       - name: Generate docs
         run: |
-          VERSION=${{ github.ref_name }}
+          VERSION=${{ github.event.workflow_run.head_branch }}
           mkdir gh-pages/$VERSION
           ldoc -c docs/config.ld -d gh-pages/$VERSION .
 
@@ -49,5 +50,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "docs: add ${{ github.ref_name }}"
+          git commit -m "docs: add ${{ github.event.workflow_run.head_branch }}"
           git push

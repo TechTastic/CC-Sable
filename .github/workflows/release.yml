@@ -94,8 +94,9 @@ jobs:
         run: |
           cd gh-pages
           VERSIONS=$(ls -d v*/ 2>/dev/null | sort -rV | sed 's|/||')
+          VERSIONS_JSON=$(echo "$VERSIONS" | tr '\n' ',' | sed 's/,$//' | sed 's/,/","/g' | sed 's/^/["/' | sed 's/$/"]/')
           
-          cat > index.html << 'EOF'
+          cat > index.html << EOF
           <!DOCTYPE html>
           <html>
           <head>
@@ -110,11 +111,11 @@ jobs:
             <h1>CC: Sable Documentation</h1>
             <ul id="versions"></ul>
             <script>
-              const versions = `${VERSIONS}`.trim().split('\n').filter(Boolean);
+              const versions = ${VERSIONS_JSON};
               const ul = document.getElementById('versions');
               versions.forEach((v, i) => {
                 const li = document.createElement('li');
-                li.innerHTML = `<a href="${v}/">${v}</a>${i === 0 ? ' <strong>(latest)</strong>' : ''}`;
+                li.innerHTML = '<a href="' + v + '/">' + v + '</a>' + (i === 0 ? ' <strong>(latest)</strong>' : '');
                 ul.appendChild(li);
               });
             </script>

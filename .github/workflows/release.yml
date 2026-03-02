@@ -59,3 +59,69 @@ jobs:
           ./gradlew :neoforge:modrinth
           ./gradlew :fabric:curseforge
           ./gradlew :neoforge:curseforge
+  docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LDoc
+        run: |
+          sudo apt-get install -y lua5.4 luarocks
+          sudo luarocks install ldoc
+
+      - name: Generate docs
+        run: ldoc .
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages-site
+
+      - name: Add versioned docs
+        run: |
+          mkdir -p gh-pages-site/${{ steps.version.outputs.VERSION }}
+          cp -r doc/. gh-pages-site/${{ steps.version.outputs.VERSION }}/
+
+      - name: Update latest
+        run: |
+          rm -rf gh-pages-site/latest
+          cp -r doc/. gh-pages-site/latest/
+
+      - name: Update root index
+        run: |
+          cd gh-pages-site
+          VERSIONS=$(ls -d v*/ 2>/dev/null | sort -V | sed 's|/||g')
+          LATEST=${{ steps.version.outputs.VERSION }}
+          cat > index.html << EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta http-equiv="refresh" content="0; url=latest/" />
+            <title>Docs</title>
+          </head>
+          <body>
+            <p>Redirecting to <a href="latest/">latest docs</a>...</p>
+            <h2>All Versions</h2>
+            <ul>
+          $(for v in $VERSIONS; do echo "    <li><a href=\"$v/\">$v</a></li>"; done)
+            </ul>
+          </body>
+          </html>
+          EOF
+
+      - name: Commit and push to gh-pages
+        run: |
+          cd gh-pages-site
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "docs: add ${{ steps.version.outputs.VERSION }}"
+          git push

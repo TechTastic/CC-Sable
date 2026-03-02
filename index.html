@@ -12,11 +12,11 @@
   <h1>CC: Sable Documentation</h1>
   <ul id="versions"></ul>
   <script>
-    const versions = `${VERSIONS}`.trim().split('\n').filter(Boolean);
+    const versions = ;
     const ul = document.getElementById('versions');
     versions.forEach((v, i) => {
       const li = document.createElement('li');
-      li.innerHTML = `<a href="${v}/">${v}</a>${i === 0 ? ' <strong>(latest)</strong>' : ''}`;
+      li.innerHTML = '<a href="' + v + '/">' + v + '</a>' + (i === 0 ? ' <strong>(latest)</strong>' : '');
       ul.appendChild(li);
     });
   </script>

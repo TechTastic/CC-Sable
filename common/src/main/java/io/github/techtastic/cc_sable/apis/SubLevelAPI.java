@@ -25,27 +25,27 @@ public class SubLevelAPI implements ILuaAPI {
     }
 
     @Override
-    public String @NonNull [] getNames() {
+    public final String @NonNull [] getNames() {
         return new String[] {"sublevel"};
     }
 
     @LuaFunction
-    public String getUniqueId() throws LuaException {
+    public final String getUniqueId() throws LuaException {
         return getSublevel().getUniqueId().toString();
     }
 
     @LuaFunction
-    public String getName() throws LuaException {
+    public final String getName() throws LuaException {
         return getSublevel().getName();
     }
 
     @LuaFunction
-    public Map<String, Object> getLogicalPose() throws LuaException {
+    public final Map<String, Object> getLogicalPose() throws LuaException {
         return CCSableUtils.toLua(getSublevel().logicalPose());
     }
 
     @LuaFunction
-    public Map<String, Object> getLastPose() throws LuaException {
+    public final Map<String, Object> getLastPose() throws LuaException {
         return CCSableUtils.toLua(getSublevel().lastPose());
     }
 }

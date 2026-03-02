@@ -1,0 +1,3 @@
+[submodule "libs/advanced-math"]
+	path = libs/advanced-math
+	url = https://github.com/TechTastic/Advanced-Math

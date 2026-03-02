@@ -61,6 +61,7 @@ jobs:
           ./gradlew :neoforge:curseforge
   docs:
     runs-on: ubuntu-latest
+    needs: build-and-release
     permissions:
       contents: write
 
@@ -99,14 +100,14 @@ jobs:
           <html>
           <head>
             <meta charset="utf-8">
-            <title>YourMod Docs</title>
+            <title>CC: Sable Docs</title>
             <style>
               body { font-family: sans-serif; max-width: 600px; margin: 4rem auto; }
               ul { line-height: 2; }
             </style>
           </head>
           <body>
-            <h1>YourMod Documentation</h1>
+            <h1>CC: Sable Documentation</h1>
             <ul id="versions"></ul>
             <script>
               const versions = `${VERSIONS}`.trim().split('\n').filter(Boolean);

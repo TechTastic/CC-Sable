@@ -87,6 +87,7 @@ jobs:
         run: |
           mkdir -p gh-pages/${{ steps.version.outputs.VERSION }}
           ldoc -c config.ld -d gh-pages/${{ steps.version.outputs.VERSION }} .
+          touch gh-pages/.nojekyll
 
       - name: Update versions index
         run: |

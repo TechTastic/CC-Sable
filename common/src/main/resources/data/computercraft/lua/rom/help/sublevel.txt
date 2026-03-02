@@ -1,5 +1,7 @@
 Functions in the Sub-Level API:
+sublevel.isInPlotGrid()
 sublevel.getUniqueId()
 sublevel.getName()
 sublevel.getLogicalPose()
 sublevel.getLastPose()
+sublevel.getVelocity()

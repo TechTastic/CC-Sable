@@ -1,6 +1,7 @@
 package io.github.techtastic.cc_sable.util;
 
 import dev.ryanhcode.sable.companion.math.Pose3dc;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Quaterniondc;
 import org.joml.Vector3dc;
 

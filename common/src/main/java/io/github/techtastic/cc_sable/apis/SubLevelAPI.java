@@ -7,12 +7,15 @@ import dan200.computercraft.api.lua.LuaFunction;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import dev.ryanhcode.sable.companion.SubLevelAccess;
 import io.github.techtastic.cc_sable.util.CCSableUtils;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import org.joml.Vector3d;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 
 public class SubLevelAPI implements ILuaAPI {
-    private IComputerSystem system;
+    private final IComputerSystem system;
 
     public SubLevelAPI(IComputerSystem system) {
         this.system = system;
@@ -27,6 +30,11 @@ public class SubLevelAPI implements ILuaAPI {
     @Override
     public final String @NonNull [] getNames() {
         return new String[] {"sublevel"};
+    }
+
+    @LuaFunction
+    public final boolean isInPlotGrid() {
+        return SableCompanion.INSTANCE.isInPlotGrid(this.system.getLevel(), this.system.getPosition());
     }
 
     @LuaFunction
@@ -47,5 +55,11 @@ public class SubLevelAPI implements ILuaAPI {
     @LuaFunction
     public final Map<String, Object> getLastPose() throws LuaException {
         return CCSableUtils.toLua(getSublevel().lastPose());
+    }
+
+    @LuaFunction
+    public final Map<String, Double> getVelocity() {
+        Vector3d pos = new Vector3d(this.system.getPosition().getX(), this.system.getPosition().getY(), this.system.getPosition().getZ());
+        return CCSableUtils.toLua(SableCompanion.INSTANCE.getVelocity(this.system.getLevel(), pos));
     }
 }

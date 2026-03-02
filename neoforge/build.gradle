@@ -1,5 +1,7 @@
 plugins {
     id 'com.gradleup.shadow'
+    id "com.matthewprenger.cursegradle"
+    id "com.modrinth.minotaur"
 }
 
 architectury {
@@ -34,9 +36,6 @@ repositories {
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
 
-    // Architectury API. This is optional, and you can comment it out if you don't need it.
-    modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
-
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 
@@ -61,4 +60,45 @@ shadowJar {
 
 remapJar {
     inputFile.set shadowJar.archiveFile
+}
+
+curseforge {
+    if (System.getenv("CURSEFORGE_TOKEN") != null) {
+        apiKey = System.getenv("CURSEFORGE_TOKEN")
+        project {
+            id = curseforge_id
+            releaseType = 'release'
+            changelogType = 'markdown'
+            changelog = rootProject.file("changelog.md").text
+            addGameVersion minecraft_version
+            addGameVersion "NeoForge"
+
+            mainArtifact(remapJar.archiveFile.get().asFile) {
+                relations {
+                    requiredDependency 'cc-tweaked'
+                }
+                displayName = 'CC: Sable ' + project.mod_version
+            }
+        }
+        options {
+            forgeGradleIntegration = false
+            javaVersionAutoDetect = false
+        }
+    }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = project.modrinth_id
+    versionType = "release"
+    versionName = 'CC: Sable ' + project.mod_version
+    versionNumber = project.mod_version
+    uploadFile = remapJar.archiveFile.get().asFile
+    gameVersions = [project.minecraft_version]
+    loaders = ["NeoForge"]
+    changelog = rootProject.file("changelog.md").text
+
+    dependencies {
+        required.project "cc-tweaked"
+    }
 }

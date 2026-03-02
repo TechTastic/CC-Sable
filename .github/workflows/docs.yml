@@ -1,9 +1,10 @@
 name: Build & Publish Docs
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_run:
+    workflows: ["Release"]
+    types:
+      - completed
 
 jobs:
   docs:

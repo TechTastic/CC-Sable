@@ -37,10 +37,13 @@ jobs:
         run: ls -d gh-pages/v* | sed 's|gh-pages/||' | jq -R . | jq -s . > gh-pages/versions.json
 
       - name: Copy over version.js
-        run: cp docs/version.js gh-pages/version.js
+        run: |
+          mkdir gh=pages/scripts
+          cp docs/version.js gh-pages/scripts/version.js
 
       - name: Script Injection for Dropdown
-        run: find gh-pages/ -name "*.html" -exec sed -i '/<\/body>/i <script src="/version.js"><\/script>' {} \;
+        run: |
+          find ${{ github.workspace }}/gh-pages/ -name "*.html" | xargs sed -i 's|</body>|<script src="/scripts/version.js"></script></body>|'
 
       - name: Commit and push to gh-pages
         run: |

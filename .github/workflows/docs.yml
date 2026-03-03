@@ -40,7 +40,7 @@ jobs:
           fi
 
       - name: Generate versions.json
-        run: ls -d gh-pages/v* | sed 's|gh-pages/||' | jq -R . | jq -s . > gh-pages/versions.json
+        run: ls -d gh-pages/v*/ | sed 's|gh-pages/||;s|/||' | jq -R . | jq -s . > gh-pages/versions.json
 
       - name: Copy over version.js
         run: |

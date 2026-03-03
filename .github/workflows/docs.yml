@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - master
 
 jobs:
   docs:
@@ -29,9 +31,13 @@ jobs:
 
       - name: Generate docs
         run: |
-          VERSION=${{ github.ref_name }}
-          mkdir gh-pages/$VERSION
-          ldoc -c docs/config.ld -d ${{ github.workspace }}/gh-pages/$VERSION .
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            VERSION="${{ github.ref_name }}"
+            mkdir -p ${{ github.workspace }}/gh-pages/$VERSION
+            ldoc -c docs/config.ld -d ${{ github.workspace }}/gh-pages/$VERSION .
+          else
+            ldoc -c docs/config.ld -d ${{ github.workspace }}/gh-pages .
+          fi
 
       - name: Generate versions.json
         run: ls -d gh-pages/v* | sed 's|gh-pages/||' | jq -R . | jq -s . > gh-pages/versions.json
@@ -51,5 +57,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "docs: add ${{ github.ref_name }}"
+          git commit -m "docs: add/update ${{ github.ref_name }}"
           git push

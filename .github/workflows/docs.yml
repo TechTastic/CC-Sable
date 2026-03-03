@@ -49,7 +49,7 @@ jobs:
 
       - name: Script Injection for Dropdown
         run: |
-          find ${{ github.workspace }}/gh-pages/ -name "*.html" | xargs sed -i 's|</body>|<script src="/scripts/version.js"></script></body>|'
+          find ${{ github.workspace }}/gh-pages/ -name "*.html" | xargs sed -i 's|</body>|<script src="${{ github.event.repository.name }}/scripts/version.js"></script></body>|'
 
       - name: Commit and push to gh-pages
         run: |

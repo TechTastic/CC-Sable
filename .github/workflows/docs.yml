@@ -31,7 +31,7 @@ jobs:
         run: |
           VERSION=${{ github.ref_name }}
           mkdir gh-pages/$VERSION
-          ldoc -c docs/config.ld -d gh-pages/$VERSION .
+          ldoc -c docs/config.ld -d ${{ github.workspace }}/gh-pages/$VERSION .
 
       - name: Generate versions.json
         run: ls -d gh-pages/v* | sed 's|gh-pages/||' | jq -R . | jq -s . > gh-pages/versions.json

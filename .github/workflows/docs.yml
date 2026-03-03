@@ -44,7 +44,7 @@ jobs:
 
       - name: Copy over version.js
         run: |
-          mkdir gh-pages/scripts
+          mkdir -p gh-pages/scripts
           cp docs/version.js gh-pages/scripts/version.js
 
       - name: Script Injection for Dropdown

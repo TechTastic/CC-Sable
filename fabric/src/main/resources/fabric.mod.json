@@ -28,6 +28,7 @@
     "java": ">=21",
     "architectury": ">=13.0.8",
     "fabric-api": "*",
-    "computercraft": ">=1.116.2"
+    "computercraft": ">=1.116.2",
+    "sable": ">=1.0.5"
   }
 }

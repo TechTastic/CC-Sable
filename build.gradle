@@ -43,6 +43,16 @@ subprojects {
             name = "RyanHCode Maven"
             url = "https://maven.ryanhcode.dev/releases"
         }
+
+        maven {
+            name = "Fuzs Mod Resources"
+            url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+        }
+
+        maven {
+            name = 'BlameJared Maven (CrT / Bookshelf)'
+            url = 'https://maven.blamejared.com'
+        }
     }
 
     loom {

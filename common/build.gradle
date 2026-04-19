@@ -14,7 +14,7 @@ dependencies {
     // Do NOT use other classes from Fabric Loader.
     modImplementation "net.fabricmc:fabric-loader:$fabric_loader_version"
 
-    api "dev.ryanhcode.sable-companion:sable-companion-$minecraft_version:$sable_companion_version"
+    api "dev.ryanhcode.sable:sable-common-$minecraft_version:$sable_version"
 
     compileOnly("cc.tweaked:cc-tweaked-$minecraft_version-common-api:$cc_tweaked_version")
 }

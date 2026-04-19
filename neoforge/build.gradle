@@ -39,7 +39,7 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 
-    include(modApi("dev.ryanhcode.sable-companion:sable-companion-$minecraft_version:$sable_companion_version"))
+    api("dev.ryanhcode.sable:sable-common-$minecraft_version:$sable_version")
 
     modCompileOnly("cc.tweaked:cc-tweaked-$minecraft_version-forge-api:$cc_tweaked_version")
     modRuntimeOnly("cc.tweaked:cc-tweaked-$minecraft_version-forge:$cc_tweaked_version")
@@ -76,6 +76,7 @@ curseforge {
             mainArtifact(remapJar.archiveFile.get().asFile) {
                 relations {
                     requiredDependency 'cc-tweaked'
+                    requiredDependency 'architectury-api'
                 }
                 displayName = 'CC: Sable ' + project.mod_version
             }
@@ -100,5 +101,6 @@ modrinth {
 
     dependencies {
         required.project "cc-tweaked"
+        required.project "sable"
     }
 }

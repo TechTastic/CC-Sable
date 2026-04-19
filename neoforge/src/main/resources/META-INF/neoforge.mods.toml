@@ -37,7 +37,14 @@ side = "BOTH"
 [[dependencies.cc_sable]]
 modId = "computercraft"
 type = "required"
-versionRange = "[1.116.2,)"
+versionRange = "[1.117.1,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.cc_sable]]
+modId = "sable"
+type = "required"
+versionRange = "[1.0.5,)"
 ordering = "AFTER"
 side = "BOTH"
 

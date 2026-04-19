@@ -55,7 +55,7 @@ for k,v in pairs(native) do
 			result.rotationPoint = vector.new(result.rotationPoint.x, result.rotationPoint.y, result.rotationPoint.z)
 			return result
 		end
-	else if k == "getVelocity" then
+	elseif k == "getVelocity" then
 		env[k] = function()
 			local result, err = v()
 			if err then

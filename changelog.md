@@ -1,2 +1,3 @@
 # Changes
-- Added `getVelocity` and `isInPlotYard` to Sub-Level API
+- Switched to Sable proper!
+- Tested and Fixed `sublevel.lua` wrapper!

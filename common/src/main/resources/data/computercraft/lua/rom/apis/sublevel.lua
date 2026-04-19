@@ -20,6 +20,11 @@
 -- @treturn string The Sub-Level name
 -- @raise This method errors if there is no Sub-Level associated with the computer.
 
+--- Sets the Sub-level's name.
+-- @function setName
+-- @tparam string newName The new name for the Sub-Level
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
 --- Gets the Sub-Level's logical pose of the Sub-Level.
 -- @function getLogicalPose
 -- @treturn table Pose information including position, orientation, scale, and rotation point
@@ -33,6 +38,41 @@
 --- Gets the Sub-Level's global velocity.
 -- @function getVelocity
 -- @treturn vector the global velocity of the Sub-Level
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+--- Gets the Sub-Level's latest linear velocity.
+-- @function getLinearVelocity
+-- @treturn vector the latest linear velocity of the Sub-Level
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+--- Gets the Sub-Level's latest angular velocity.
+-- @function getAngularVelocity
+-- @treturn vector the latest angular velocity of the Sub-Level
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+--- Gets the Sub-Level's center of mass.
+-- @function getCenterOfMass
+-- @treturn vector the center of mass of the Sub-Level
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+--- Gets the Sub-Level's mass.
+-- @function getMass
+-- @treturn number the mass of the Sub-Level
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+--- Gets the Sub-Level's inverse mass.
+-- @function getInverseMass
+-- @treturn number the inverse mass of the Sub-Level
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+--- Gets the Sub-Level's inertia tensor.
+-- @function getInertiaTensor
+-- @treturn matrix the inertia tensor of the Sub-Level
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+--- Gets the Sub-Level's inverse inertia tensor.
+-- @function getInverseInertiaTensor
+-- @treturn matrix the inverse inertia tensor of the Sub-Level
 -- @raise This method errors if there is no Sub-Level associated with the computer.
 
 if not sublevel then
@@ -55,13 +95,21 @@ for k,v in pairs(native) do
 			result.rotationPoint = vector.new(result.rotationPoint.x, result.rotationPoint.y, result.rotationPoint.z)
 			return result
 		end
-	elseif k == "getVelocity" then
+	elseif k == "getVelocity" or k == "getLinearVelocity" or k == "getAngularVelocity" or k == "getCenterOfMass" then
 		env[k] = function()
 			local result, err = v()
 			if err then
 				error(err)
 			end
 			return vector.new(result.x, result.y, result.z)
+		end
+	elseif k == "getInertiaTensor" or k == "getInverseInertiaTensor" then
+		env[k] = function()
+			local result, err = v()
+			if err then
+				error(err)
+			end
+			return matrix.from2DArray(result)
 		end
 	else
 		env[k] = v

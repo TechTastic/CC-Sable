@@ -6,8 +6,6 @@ Currently, it provides the Sub-Level API (`sublevel`) for all in-game computers!
 
 This mod also comes bundled with the [CC: Advanced Math](https://techtastic.github.io/Advanced-Math/) datapack for extra math utilities, namely the `quaternion` module for handling rotations in 3D space. This is used to convert the orientation of Sub-Levels into a more usable format for Lua.
 
-***Note:*** *Due to the lack of access to the actual Sable backend, this API is currently limited to what is provided via* [**Sable Companion**](https://github.com/ryanhcode/sable-companion).
-
 ---
 
 ### Sub-Level API

@@ -3,8 +3,8 @@ architectury {
 }
 
 processResources {
-    from(rootProject.file('libs/advanced-math/datapack')) {
-        into('')
+    from(rootProject.file('libs/advanced-math/datapack/data')) {
+        into('data')
     }
 }
 

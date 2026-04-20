@@ -2,7 +2,14 @@ architectury {
     common rootProject.enabled_platforms.split(',')
 }
 
+tasks.register('updateSubmodules', Exec) {
+    commandLine 'git', 'submodule', 'update', '--init', '--recursive', 'libs/advanced-math'
+    workingDir rootProject.projectDir
+}
+
 processResources {
+    dependsOn 'updateSubmodules'
+
     from(rootProject.file('libs/advanced-math/datapack/data')) {
         into('data')
     }

@@ -1,0 +1,7 @@
+Functions in the Aerodynamics API:
+aero.getAirPressure( vector )
+aero.getGravity()
+aero.getMagneticNorth()
+aero.getUniversalDrag()
+aero.getRaw()
+aero.getDefault()

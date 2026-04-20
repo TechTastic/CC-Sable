@@ -33,7 +33,7 @@ public class CCSableUtils {
                 "x", quaternion.x(),
                 "y", quaternion.y(),
                 "z", quaternion.z(),
-                "w", quaternion.z()
+                "w", quaternion.w()
         );
     }
 

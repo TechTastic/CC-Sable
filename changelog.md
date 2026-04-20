@@ -1,2 +1,2 @@
 # Changes
-- Fixed Advanced Math git submodule not being pulled and thus bundled
+- Fixed a typo in the parsing of `Quaterniondc`s

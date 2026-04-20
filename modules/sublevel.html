@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <head>
     <title>CC: Sable</title>
-    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
 </head>
 <body>
 
@@ -27,6 +27,9 @@
 <h1>CC: Sable</h1>
 
 
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
 
 <h2>Contents</h2>
 <ul>
@@ -37,6 +40,7 @@
 <h2>Modules</h2>
 <ul class="nowrap">
   <li><strong>sublevel</strong></li>
+  <li><a href="../modules/aero.html">aero</a></li>
 </ul>
 
 </div>
@@ -63,6 +67,10 @@
 	<td class="summary">Gets the Sub-Level's name.</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#setName">setName (newName)</a></td>
+	<td class="summary">Sets the Sub-level's name.</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#getLogicalPose">getLogicalPose ()</a></td>
 	<td class="summary">Gets the Sub-Level's logical pose of the Sub-Level.</td>
 	</tr>
@@ -73,6 +81,34 @@
 	<tr>
 	<td class="name" nowrap><a href="#getVelocity">getVelocity ()</a></td>
 	<td class="summary">Gets the Sub-Level's global velocity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getLinearVelocity">getLinearVelocity ()</a></td>
+	<td class="summary">Gets the Sub-Level's latest linear velocity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getAngularVelocity">getAngularVelocity ()</a></td>
+	<td class="summary">Gets the Sub-Level's latest angular velocity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getCenterOfMass">getCenterOfMass ()</a></td>
+	<td class="summary">Gets the Sub-Level's center of mass.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getMass">getMass ()</a></td>
+	<td class="summary">Gets the Sub-Level's mass.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getInverseMass">getInverseMass ()</a></td>
+	<td class="summary">Gets the Sub-Level's inverse mass.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getInertiaTensor">getInertiaTensor ()</a></td>
+	<td class="summary">Gets the Sub-Level's inertia tensor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getInverseInertiaTensor">getInverseInertiaTensor ()</a></td>
+	<td class="summary">Gets the Sub-Level's inverse inertia tensor.</td>
 	</tr>
 </table>
 
@@ -148,6 +184,29 @@
 
 </dd>
     <dt>
+    <a name = "setName"></a>
+    <strong>setName (newName)</strong>
+    </dt>
+    <dd>
+    Sets the Sub-level's name.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">newName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The new name for the Sub-Level
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    This method errors if there is no Sub-Level associated with the computer.
+
+
+
+</dd>
+    <dt>
     <a name = "getLogicalPose"></a>
     <strong>getLogicalPose ()</strong>
     </dt>
@@ -213,6 +272,160 @@
 
 
 </dd>
+    <dt>
+    <a name = "getLinearVelocity"></a>
+    <strong>getLinearVelocity ()</strong>
+    </dt>
+    <dd>
+    Gets the Sub-Level's latest linear velocity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector</span></span>
+        the latest linear velocity of the Sub-Level
+    </ol>
+
+    <h3>Raises:</h3>
+    This method errors if there is no Sub-Level associated with the computer.
+
+
+
+</dd>
+    <dt>
+    <a name = "getAngularVelocity"></a>
+    <strong>getAngularVelocity ()</strong>
+    </dt>
+    <dd>
+    Gets the Sub-Level's latest angular velocity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector</span></span>
+        the latest angular velocity of the Sub-Level
+    </ol>
+
+    <h3>Raises:</h3>
+    This method errors if there is no Sub-Level associated with the computer.
+
+
+
+</dd>
+    <dt>
+    <a name = "getCenterOfMass"></a>
+    <strong>getCenterOfMass ()</strong>
+    </dt>
+    <dd>
+    Gets the Sub-Level's center of mass.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector</span></span>
+        the center of mass of the Sub-Level
+    </ol>
+
+    <h3>Raises:</h3>
+    This method errors if there is no Sub-Level associated with the computer.
+
+
+
+</dd>
+    <dt>
+    <a name = "getMass"></a>
+    <strong>getMass ()</strong>
+    </dt>
+    <dd>
+    Gets the Sub-Level's mass.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        the mass of the Sub-Level
+    </ol>
+
+    <h3>Raises:</h3>
+    This method errors if there is no Sub-Level associated with the computer.
+
+
+
+</dd>
+    <dt>
+    <a name = "getInverseMass"></a>
+    <strong>getInverseMass ()</strong>
+    </dt>
+    <dd>
+    Gets the Sub-Level's inverse mass.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        the inverse mass of the Sub-Level
+    </ol>
+
+    <h3>Raises:</h3>
+    This method errors if there is no Sub-Level associated with the computer.
+
+
+
+</dd>
+    <dt>
+    <a name = "getInertiaTensor"></a>
+    <strong>getInertiaTensor ()</strong>
+    </dt>
+    <dd>
+    Gets the Sub-Level's inertia tensor.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">matrix</span></span>
+        the inertia tensor of the Sub-Level
+    </ol>
+
+    <h3>Raises:</h3>
+    This method errors if there is no Sub-Level associated with the computer.
+
+
+
+</dd>
+    <dt>
+    <a name = "getInverseInertiaTensor"></a>
+    <strong>getInverseInertiaTensor ()</strong>
+    </dt>
+    <dd>
+    Gets the Sub-Level's inverse inertia tensor.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">matrix</span></span>
+        the inverse inertia tensor of the Sub-Level
+    </ol>
+
+    <h3>Raises:</h3>
+    This method errors if there is no Sub-Level associated with the computer.
+
+
+
+</dd>
 </dl>
 
 
@@ -220,8 +433,8 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
-<i style="float:right;">Last updated 2026-04-19 06:41:14 </i>
+<i style="float:right;">Last updated 2026-04-20 15:03:14 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
-<script src="/CC-Sable/scripts/version.js"></script><script src="/CC-Sable/scripts/version.js"></script><script src="/CC-Sable/scripts/version.js"></script><script src="/CC-Sable/scripts/version.js"></script><script src="/CC-Sable/scripts/version.js"></script><script src="/CC-Sable/scripts/version.js"></script><script src="/CC-Sable/scripts/version.js"></script><script src="/CC-Sable/scripts/version.js"></script><script src="/CC-Sable/scripts/version.js"></script></body>
+<script src="/CC-Sable/scripts/version.js"></script></body>
 </html>

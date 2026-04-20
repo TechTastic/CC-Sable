@@ -1,2 +1,2 @@
 # Changes
-- Adding Aero/Aerodynamics API
+- Fixed Advanced Math git submodule not being pulled and thus bundled

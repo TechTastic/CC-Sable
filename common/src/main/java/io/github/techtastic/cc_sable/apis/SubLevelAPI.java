@@ -39,75 +39,75 @@ public class SubLevelAPI implements ILuaAPI {
         return new String[] {"sublevel"};
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean isInPlotGrid() {
         return Sable.HELPER.isInPlotGrid(this.system.getLevel(), this.system.getPosition());
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final String getUniqueId() throws LuaException {
         return getSublevel().getUniqueId().toString();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final String getName() throws LuaException {
         return getSublevel().getName();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void setName(String newName) throws LuaException {
         getSublevel().setName(newName);
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Object> getLogicalPose() throws LuaException {
         return CCSableUtils.toLua(getSublevel().logicalPose());
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Object> getLastPose() throws LuaException {
         return CCSableUtils.toLua(getSublevel().lastPose());
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Double> getVelocity() {
         Vector3d pos = new Vector3d(this.system.getPosition().getX(), this.system.getPosition().getY(), this.system.getPosition().getZ());
         return CCSableUtils.toLua(SableCompanion.INSTANCE.getVelocity(this.system.getLevel(), pos));
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Double> getLinearVelocity() throws LuaException {
         return CCSableUtils.toLua(getSublevel().latestLinearVelocity);
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Double> getAngularVelocity() throws LuaException {
         return CCSableUtils.toLua(getSublevel().latestAngularVelocity);
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Double> getCenterOfMass() throws LuaException {
         Vector3dc com = getSublevel().getMassTracker().getCenterOfMass();
         if (com == null) return null;
         return CCSableUtils.toLua(com);
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final double getMass() throws LuaException {
         return getSublevel().getMassTracker().getMass();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final double getInverseMass() throws LuaException {
         return getSublevel().getMassTracker().getInverseMass();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<Double, Map<Double, Double>> getInertiaTensor() throws LuaException {
         return CCSableUtils.toLua(getSublevel().getMassTracker().getInertiaTensor());
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<Double, Map<Double, Double>> getInverseInertiaTensor() throws LuaException {
         return CCSableUtils.toLua(getSublevel().getMassTracker().getInverseInertiaTensor());
     }

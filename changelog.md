@@ -1,2 +1,2 @@
 # Changes
-- Fixed a typo in the parsing of `Quaterniondc`s
+- Made all `@LuaFunction`s run on the main thread in hopes of fixing issue #6

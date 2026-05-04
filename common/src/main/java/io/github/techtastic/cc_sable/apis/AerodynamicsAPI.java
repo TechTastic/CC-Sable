@@ -20,32 +20,32 @@ public class AerodynamicsAPI implements ILuaAPI {
         return new String[] {"aero", "aerodynamics"};
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final double getAirPressure(double x, double y, double z) {
         return DimensionPhysicsData.getAirPressure(this.system.getLevel(), new Vector3d(x, y, z));
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Double> getGravity() {
         return CCSableUtils.toLua(DimensionPhysicsData.getGravity(this.system.getLevel()));
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Double> getMagneticNorth() {
         return CCSableUtils.toLua(DimensionPhysicsData.getMagneticNorth(this.system.getLevel()).get(new Vector3d()));
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final double getUniversalDrag() {
         return DimensionPhysicsData.getUniversalDrag(this.system.getLevel());
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Object> getRaw() {
         return CCSableUtils.toLua(DimensionPhysicsData.of(this.system.getLevel()));
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<String, Object> getDefault() {
         return CCSableUtils.toLua(DimensionPhysicsData.getDefault(this.system.getLevel()));
     }

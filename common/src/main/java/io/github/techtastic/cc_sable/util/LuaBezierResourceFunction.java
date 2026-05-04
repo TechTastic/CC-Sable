@@ -13,7 +13,7 @@ public class LuaBezierResourceFunction {
         this.function = function;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final List<Map<String, Double>> getPoints() {
         return this.function.getPoints().stream().map(point -> Map.of(
                 "altitude", point.altitude(),
@@ -22,7 +22,7 @@ public class LuaBezierResourceFunction {
         )).toList();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final double evaluateFunction(double altitude) {
         return this.function.evaluateFunction(altitude);
     }

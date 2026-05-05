@@ -72,7 +72,7 @@ curseforge {
             mainArtifact(remapJar.archiveFile.get().asFile) {
                 relations {
                     requiredDependency 'cc-tweaked'
-                    requiredDependency 'architectury-api'
+                    requiredDependency 'sable'
                 }
                 displayName = 'CC: Sable ' + project.mod_version
             }
@@ -96,7 +96,6 @@ modrinth {
     changelog = rootProject.file("changelog.md").text
 
     dependencies {
-        required.project "architectury-api"
         required.project "cc-tweaked"
         required.project "sable"
     }

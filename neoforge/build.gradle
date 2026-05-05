@@ -31,6 +31,9 @@ repositories {
         name = 'NeoForged'
         url = 'https://maven.neoforged.net/releases'
     }
+
+    maven { url = "https://maven.createmod.net" } // Create, Ponder, Flywheel
+    maven { url = "https://maven.ithundxr.dev/snapshots" } // Registrate
 }
 
 dependencies {
@@ -39,7 +42,7 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 
-    api("dev.ryanhcode.sable:sable-common-$minecraft_version:$sable_version")
+    api("dev.ryanhcode.sable:sable-neoforge-$minecraft_version:$sable_version")
 
     modCompileOnly("cc.tweaked:cc-tweaked-$minecraft_version-forge-api:$cc_tweaked_version")
     modRuntimeOnly("cc.tweaked:cc-tweaked-$minecraft_version-forge:$cc_tweaked_version")
@@ -76,7 +79,7 @@ curseforge {
             mainArtifact(remapJar.archiveFile.get().asFile) {
                 relations {
                     requiredDependency 'cc-tweaked'
-                    requiredDependency 'architectury-api'
+                    requiredDependency 'sable'
                 }
                 displayName = 'CC: Sable ' + project.mod_version
             }

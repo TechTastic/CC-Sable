@@ -8,54 +8,30 @@ This mod also comes bundled with the [CC: Advanced Math](https://techtastic.gith
 
 ---
 
-### Sub-Level API
-#### getUniqueId(): string
-This method returns the Universally Unique Identifier (UUID) of the Sub-Level that the computer is currently on.
-#### getName(): string
-This method returns the name of the Sub-Level that the computer is currently on.
-#### setName(newName:string)
-This method sets the name of the Sub-Level that the computer is currently on.
-#### getLogicalPose(): table
-This method returns the logical pose of the Sub-Level that the computer is currently on. The logical pose is a table containing the position and orientation of the Sub-Level in the world. The `position`, `scale`, and `rotationPoint` fields are automatically converted to Lua `vector`s. The `orientation` field is also automatically converted to the [CC: Advanced Math `quaternion`](https://techtastic.github.io/Advanced-Math/modules/quaternion.html).
-#### getLastPose(): table
-This method returns the last known pose of the Sub-Level that the computer is currently on. The same changes to `getLogicalPose` are also made here.
-#### getVelocity(): vector
-This method returns the global velocity of the Sub-Level that the computer is currently on.
-#### getLinearVelocity(): vector
-This method returns the linear velocity of the Sub-Level that the computer is currently on.
-#### getAngularVelocity(): vector
-This method returns the angular velocity of the Sub-Level that the computer is currently on.
-#### getCenterOfMass(): vector
-This method returns the center of mass of the Sub-Level that the computer is currently on.
-#### getMass(): number
-This method returns the mass of the Sub-Level that the computer is currently on.
-#### getInverseMass(): number
-This method returns the inverse mass of the Sub-Level that the computer is currently on.
-#### getInertiaTensor(): number
-This method returns the inertia tensor of the Sub-Level that the computer is currently on.
-#### getInverseInertiaTensor(): number
-This method returns the inverse inertia tensor of the Sub-Level that the computer is currently on.
-
----
-
-### Aero/Aerodynamics API
-#### getAirPressure(position: vector): number
-This method returns the air pressure at the given position.
-#### getGravity(): vector
-This method returns the gravity of the dimension.
-#### getMagneticNorth(): vector
-This method returns the magnetic north vector of the dimension.
-#### getUniversalDrag(): number
-This method returns the universal drag constant of the dimension.
-#### getRaw(): table
-This method returns the raw physics information of the dimension (basically the values assigned by datapack). This is given as a table with `dimension` as a string, `priority` as a number, `gravity` as a vector, `pressure` as a number, `magneticNorth` as a vector, `universalDrag` as a number, and `pressureFunction` as a custom Lua wrapped object (see `LuaBezierResourceFunction`).
-#### getDefault(): table
-This method returns the default physics information of the dimension. The table is laid out the same as `getRaw`.
-
----
+## Extra References
 
 ### LuaBezierResourceFunction
+This object is gotten from the tables returned by `aero.getRaw` and `aero.getDefault`, specifically from the `pressureFunction` key.
 #### getPoints(): table
 This method returns an array of points along the bezier curve with `altitude`, `value`, and `slope` as fields for each point.
 #### evaluateFunction(altitude: number): number
 This method evaluates the function given the altitude along the bezier curve.
+
+### More Block Details
+This mod also adds the physics properties of blocks to any method calling to block details, such as `turtle.inspect()`.
+These new details will be listed under the `"sable"` key and have the following key-value pairs:
+- `mass: number`
+- `friction: number`
+- `restitution: number`
+- `volume: number`
+- `floatingScale: number`
+- `floatingMaterial: table` (can be empty)
+  - `factHorizontalFriction: number`
+  - `factVerticalFriction: number`
+  - `slowHorizontalFriction: number`
+  - `slowVerticalFriction: number`
+  - `liftStrength: number`
+  - `transitionSpeed: number`
+  - `preventSelfLift: boolean`
+  - `scaleWithGravity: boolean`
+  - `scaleWithPressure: boolean`

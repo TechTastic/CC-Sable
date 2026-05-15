@@ -5,16 +5,11 @@ import dan200.computercraft.api.lua.ILuaAPI;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dev.ryanhcode.sable.Sable;
-import dev.ryanhcode.sable.api.SubLevelHelper;
-import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
 import dev.ryanhcode.sable.companion.SableCompanion;
-import dev.ryanhcode.sable.companion.SubLevelAccess;
-import dev.ryanhcode.sable.physics.config.dimension_physics.DimensionPhysicsData;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import io.github.techtastic.cc_sable.util.CCSableUtils;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
+import io.github.techtastic.cc_sable.util.Physicker;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 import org.jspecify.annotations.NonNull;
@@ -36,7 +31,7 @@ public class SubLevelAPI implements ILuaAPI {
 
     @Override
     public final String @NonNull [] getNames() {
-        return new String[] {"sublevel"};
+        return new String[]{"sublevel"};
     }
 
     @LuaFunction(mainThread = true)
@@ -110,5 +105,10 @@ public class SubLevelAPI implements ILuaAPI {
     @LuaFunction(mainThread = true)
     public final Map<Double, Map<Double, Double>> getInverseInertiaTensor() throws LuaException {
         return CCSableUtils.toLua(getSublevel().getMassTracker().getInverseInertiaTensor());
+    }
+
+    @LuaFunction
+    public final Object getForces() throws LuaException {
+        return Physicker.requestForces(system, getSublevel());
     }
 }

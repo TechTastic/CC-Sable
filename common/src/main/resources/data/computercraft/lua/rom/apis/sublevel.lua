@@ -75,6 +75,12 @@
 -- @treturn matrix the inverse inertia tensor of the Sub-Level
 -- @raise This method errors if there is no Sub-Level associated with the computer.
 
+--- Gets all forces acting upon the sublevel.
+-- @function getForces
+-- @treturn table All forces in the format { TYPE = { [1] = {position, force}, ... }, ... }
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+
 if not sublevel then
     error("Cannot load Sub-Level API on computer")
 end

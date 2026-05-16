@@ -24,11 +24,10 @@ import java.util.concurrent.*;
 public class Physicker {
     private static ConcurrentMap<Integer, Request> REQUESTS = new ConcurrentHashMap<>();
 
-    public static void onPostPhysicsTick(SubLevelPhysicsSystem activeSystem, double v) {
+    public static void onPhysicsTick(SubLevelPhysicsSystem activeSystem, double v) {
         for (Map.Entry<Integer, Request> entry : REQUESTS.entrySet()) {
             if(!entry.getValue().subLevel().getLevel().equals(activeSystem.getLevel()))
                 continue;
-
             REQUESTS.remove(entry.getKey());
             try {
                 entry.getValue().receiver.put(createValueMap(entry.getValue().subLevel));

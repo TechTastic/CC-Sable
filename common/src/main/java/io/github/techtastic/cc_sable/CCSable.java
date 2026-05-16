@@ -18,7 +18,7 @@ public final class CCSable {
         ComputerCraftAPI.registerAPIFactory(SubLevelAPI::new);
         ComputerCraftAPI.registerAPIFactory(AerodynamicsAPI::new);
 
-        SableEventPlatform.INSTANCE.onPostPhysicsTick(Physicker::onPostPhysicsTick);
+        SableEventPlatform.INSTANCE.onPhysicsTick(Physicker::onPhysicsTick);
 
         VanillaDetailRegistries.BLOCK_IN_WORLD.addProvider((data, object) -> data.put("sable", Map.of(
                 "mass", PhysicsBlockPropertyHelper.getMass(object.level(), object.pos(), object.state()),

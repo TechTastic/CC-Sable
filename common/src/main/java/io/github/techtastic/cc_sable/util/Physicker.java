@@ -26,6 +26,9 @@ public class Physicker {
 
     public static void onPostPhysicsTick(SubLevelPhysicsSystem activeSystem, double v) {
         for (Map.Entry<Integer, Request> entry : REQUESTS.entrySet()) {
+            if(!entry.getValue().subLevel().getLevel().equals(activeSystem.getLevel()))
+                continue;
+
             REQUESTS.remove(entry.getKey());
             try {
                 entry.getValue().receiver.put(createValueMap(entry.getValue().subLevel));
@@ -46,7 +49,7 @@ public class Physicker {
         return retVal;
     }
 
-    private record Request(ServerSubLevel subLevel, BlockingQueue<Object> receiver) { }
+    private record Request(ServerSubLevel subLevel, BlockingQueue<Object> receiver { }
 
     private static Map<String, Map<Integer, Map<String, Object>>> createValueMap(ServerSubLevel level) {
         Map<String, Map<Integer, Map<String, Object>>> returnValue = new HashMap<>();

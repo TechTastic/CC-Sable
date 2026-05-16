@@ -109,6 +109,13 @@ public class SubLevelAPI implements ILuaAPI {
 
     @LuaFunction
     public final Object getForces() throws LuaException {
-        return Physicker.requestForces(system, getSublevel());
+        try {
+            Object o = Physicker.requestForces(system, getSublevel());
+            if (o == null)
+                throw new LuaException("timeout");
+            return o;
+        } catch (InterruptedException e) {
+            throw new LuaException("interrupted");
+        }
     }
 }

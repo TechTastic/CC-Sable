@@ -8,6 +8,7 @@ import dev.ryanhcode.sable.api.physics.force.QueuedForceGroup;
 import dev.ryanhcode.sable.companion.math.Pose3d;
 import dev.ryanhcode.sable.physics.config.dimension_physics.DimensionPhysicsData;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
+import dev.ryanhcode.sable.sublevel.SubLevel;
 import dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3d;
@@ -15,41 +16,37 @@ import org.joml.Vector3dc;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Track "force requests" for sublevels because Sable be like "waaah no you cant request forces mid-tick"
  */
 public class Physicker {
-    private static Map<ResourceLocation, Object> LOCKS = new HashMap();
+    private static ConcurrentMap<Integer, Request> REQUESTS = new ConcurrentHashMap<>();
 
     public static void onPostPhysicsTick(SubLevelPhysicsSystem activeSystem, double v) {
-        Object lock = getLock(activeSystem);
-        synchronized (lock) {
-            lock.notifyAll();
-        }
-    }
-
-    private static synchronized Object getLock(SubLevelPhysicsSystem activeSystem) {
-        ResourceLocation key = activeSystem.getLevel().dimension().location();
-        Object lock = LOCKS.get(key);
-        if(lock == null) lock = new Object();
-        LOCKS.put(key, lock);
-        return lock;
-    }
-
-
-    public static Object requestForces(IComputerSystem system, ServerSubLevel sublevel) {
-        sublevel.enableIndividualQueuedForcesTracking(true);
-        try {
-            Object lock = getLock(SubLevelPhysicsSystem.get(sublevel.getLevel()));
-            synchronized (lock) {
-                lock.wait(100);
+        for (Map.Entry<Integer, Request> entry : REQUESTS.entrySet()) {
+            REQUESTS.remove(entry.getKey());
+            try {
+                entry.getValue().receiver.put(createValueMap(entry.getValue().subLevel));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            return createValueMap(sublevel);
-        } catch (InterruptedException e) {
-            return null;
         }
     }
+
+
+    public static Object requestForces(IComputerSystem system, ServerSubLevel sublevel) throws InterruptedException {
+        int id = system.getID();
+        BlockingQueue<Object> receiver = new ArrayBlockingQueue<>(1);
+        REQUESTS.put(id, new Request(sublevel, receiver));
+        sublevel.enableIndividualQueuedForcesTracking(true);
+        Object retVal = receiver.poll(100, TimeUnit.MILLISECONDS);
+        sublevel.enableIndividualQueuedForcesTracking(false);
+        return retVal;
+    }
+
+    private record Request(ServerSubLevel subLevel, BlockingQueue<Object> receiver) { }
 
     private static Map<String, Map<Integer, Map<String, Object>>> createValueMap(ServerSubLevel level) {
         Map<String, Map<Integer, Map<String, Object>>> returnValue = new HashMap<>();

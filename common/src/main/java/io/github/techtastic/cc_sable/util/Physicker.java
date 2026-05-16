@@ -49,7 +49,7 @@ public class Physicker {
         return retVal;
     }
 
-    private record Request(ServerSubLevel subLevel, BlockingQueue<Object> receiver { }
+    private record Request(ServerSubLevel subLevel, BlockingQueue<Object> receiver) { }
 
     private static Map<String, Map<Integer, Map<String, Object>>> createValueMap(ServerSubLevel level) {
         Map<String, Map<Integer, Map<String, Object>>> returnValue = new HashMap<>();

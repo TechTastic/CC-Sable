@@ -75,6 +75,12 @@
 -- @treturn matrix the inverse inertia tensor of the Sub-Level
 -- @raise This method errors if there is no Sub-Level associated with the computer.
 
+--- Gets all forces acting upon the sublevel.
+-- @function getForces
+-- @treturn table All forces in the format { TYPE = { [1] = {position, force}, ... }, ... }
+-- @raise This method errors if there is no Sub-Level associated with the computer.
+
+
 if not sublevel then
     error("Cannot load Sub-Level API on computer")
 end
@@ -111,6 +117,22 @@ for k,v in pairs(native) do
 			end
 			return matrix.from2DArray(result)
 		end
+    elseif k == "getForces" then
+        env[k] = function()
+			local result, err = v()
+			if err then
+				error(err)
+			end
+
+            for name, force in pairs(result) do
+                for i, point in ipairs(force) do
+                    point.position = vector.new(point.position.x, point.position.y, point.position.z)
+                    point.force = vector.new(point.force.x, point.force.y, point.force.z)
+                end
+            end
+
+            return result
+        end
 	else
 		env[k] = v
 	end

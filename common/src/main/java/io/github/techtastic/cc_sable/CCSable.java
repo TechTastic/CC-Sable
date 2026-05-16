@@ -4,8 +4,10 @@ import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.detail.VanillaDetailRegistries;
 import dev.ryanhcode.sable.physics.config.block_properties.PhysicsBlockPropertyHelper;
 import dev.ryanhcode.sable.physics.floating_block.FloatingBlockMaterial;
+import dev.ryanhcode.sable.platform.SableEventPlatform;
 import io.github.techtastic.cc_sable.apis.AerodynamicsAPI;
 import io.github.techtastic.cc_sable.apis.SubLevelAPI;
+import io.github.techtastic.cc_sable.util.Physicker;
 
 import java.util.Map;
 
@@ -15,6 +17,8 @@ public final class CCSable {
     public static void init() {
         ComputerCraftAPI.registerAPIFactory(SubLevelAPI::new);
         ComputerCraftAPI.registerAPIFactory(AerodynamicsAPI::new);
+
+        SableEventPlatform.INSTANCE.onPhysicsTick(Physicker::onPhysicsTick);
 
         VanillaDetailRegistries.BLOCK_IN_WORLD.addProvider((data, object) -> data.put("sable", Map.of(
                 "mass", PhysicsBlockPropertyHelper.getMass(object.level(), object.pos(), object.state()),

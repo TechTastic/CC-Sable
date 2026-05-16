@@ -35,3 +35,5 @@ These new details will be listed under the `"sable"` key and have the following 
   - `preventSelfLift: boolean`
   - `scaleWithGravity: boolean`
   - `scaleWithPressure: boolean`
+
+  
